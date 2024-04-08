@@ -1,15 +1,6 @@
 version: '3.7'
 
 services:
-  pizza-shared:
-    build:
-      context: ./pizza-shared
-    container_name: pizza-shared
-    ports:
-      - "8080:8080"
-    networks:
-      - pizza-network
-
   order-producer:
     build:
       context: ./order-producer
@@ -38,8 +29,8 @@ services:
     volumes:
       - mongodb_data:/data/db
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
     networks:
       - pizza-network
 
