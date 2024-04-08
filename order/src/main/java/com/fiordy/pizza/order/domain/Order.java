@@ -29,11 +29,11 @@ public class Order implements Comparable<Order> {
     public int compareTo(@NonNull Order o) {
         // if the other order has no specified type, this is prioritary
         if (o.getType() == null && this.getType() != null){
-            return 1;
+            return -1;
         }
         // if of different type, compare priority
-        if (this.getType() != null && this.getType() != this.getType()){
-            return this.getType().compareTo(o.getType());
+        if (this.getType() != null && this.getType() != o.getType()){
+            return this.getType().priority().compareTo(o.getType().priority());
         }
         // they're pizzas so we assume they have the same prep time.
         // It would be nice to compare max(prepTime...)
