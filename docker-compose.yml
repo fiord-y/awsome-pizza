@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  pizza-shared:
+    build:
+      context: ./pizza-shared
+    container_name: pizza-shared
+    ports:
+      - "8080:8080"
+    networks:
+      - pizza-network
+
+  order-producer:
+    build:
+      context: ./order-producer
+    container_name: order-producer
+    ports:
+      - "8081:8081"
+    networks:
+      - pizza-network
+
+  order-processor:
+    build:
+      context: ./order-processor
+    container_name: order-processor
+    ports:
+      - "8082:8082"
+    networks:
+      - pizza-network
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - pizza-network
+
+networks:
+  pizza-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
